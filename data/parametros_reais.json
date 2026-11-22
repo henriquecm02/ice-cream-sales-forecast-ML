@@ -1,0 +1,11 @@
+{
+  "inicio": "2023-01-01",
+  "fim": "2024-12-31",
+  "intercepto": -80.0,
+  "por_grau": 9.0,
+  "fim_de_semana": 40.0,
+  "feriado": 25.0,
+  "chuva": -35.0,
+  "ruido_desvio": 15.0,
+  "semente": 7
+}

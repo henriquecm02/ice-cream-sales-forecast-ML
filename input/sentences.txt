@@ -1,3 +1,0 @@
-Este projeto tem como objetivo prever a demanda por sorvetes de forma eficiente.
-A temperatura influencia diretamente nas vendas.
-Machine Learning ajuda a reduzir desperdício e aumentar lucro.

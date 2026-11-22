@@ -1,0 +1,147 @@
+{
+  "acertos": 17,
+  "total": 17,
+  "modelos": [
+    {
+      "modelo": "so_temperatura",
+      "r2": 0.581,
+      "mae": 21.35,
+      "n_teste": 147
+    },
+    {
+      "modelo": "multivariado",
+      "r2": 0.87,
+      "mae": 12.76,
+      "n_teste": 147
+    }
+  ],
+  "coeficientes": {
+    "intercepto": -85.82434698215062,
+    "por_grau": 9.22459727850027,
+    "chuva": -33.53036264912839,
+    "fim_de_semana": 41.416933037786976,
+    "feriado": 26.32158899165748
+  },
+  "casos": [
+    {
+      "caso": "efeito por grau recuperado (±0,5)",
+      "ok": true,
+      "obtido": 9.22,
+      "esperado": 9.0
+    },
+    {
+      "caso": "efeito da chuva recuperado (±8)",
+      "ok": true,
+      "obtido": -33.53,
+      "esperado": -35.0
+    },
+    {
+      "caso": "efeito do fim de semana recuperado (±6)",
+      "ok": true,
+      "obtido": 41.42,
+      "esperado": 40.0
+    },
+    {
+      "caso": "multivariado com R² >= 0,85 no holdout",
+      "ok": true,
+      "obtido": 0.87,
+      "esperado": ">= 0.85"
+    },
+    {
+      "caso": "multivariado erra menos que só temperatura",
+      "ok": true,
+      "obtido": 12.76,
+      "esperado": "< 21.35"
+    },
+    {
+      "caso": "previsão nunca negativa (10 °C)",
+      "ok": true,
+      "obtido": 6.4,
+      "esperado": ">= 0"
+    },
+    {
+      "caso": "faltar caro => produzir mais",
+      "ok": true,
+      "obtido": 1526,
+      "esperado": "> 1323"
+    },
+    {
+      "caso": "roteamento: Quantos sorvetes vou vender amanhã com 31 graus?",
+      "ok": true,
+      "obtido": [
+        "prever_vendas"
+      ],
+      "esperado": "prever_vendas"
+    },
+    {
+      "caso": "roteamento: Previsão de vendas para sábado de 27 °C com chuva",
+      "ok": true,
+      "obtido": [
+        "prever_vendas"
+      ],
+      "esperado": "prever_vendas"
+    },
+    {
+      "caso": "roteamento: Quanto devo produzir na próxima semana?",
+      "ok": true,
+      "obtido": [
+        "planejar_producao"
+      ],
+      "esperado": "planejar_producao"
+    },
+    {
+      "caso": "roteamento: Monte o plano de produção para 30, 31, 29, 26, 24, 28 e 33 graus",
+      "ok": true,
+      "obtido": [
+        "planejar_producao"
+      ],
+      "esperado": "planejar_producao"
+    },
+    {
+      "caso": "roteamento: Qual o efeito de cada grau a mais nas vendas?",
+      "ok": true,
+      "obtido": [
+        "explicar_modelo"
+      ],
+      "esperado": "explicar_modelo"
+    },
+    {
+      "caso": "roteamento: Quanto a chuva derruba as vendas?",
+      "ok": true,
+      "obtido": [
+        "explicar_modelo"
+      ],
+      "esperado": "explicar_modelo"
+    },
+    {
+      "caso": "roteamento: Compare os modelos: qual tem o melhor R²?",
+      "ok": true,
+      "obtido": [
+        "comparar_modelos"
+      ],
+      "esperado": "comparar_modelos"
+    },
+    {
+      "caso": "roteamento: Registre o experimento no MLflow",
+      "ok": true,
+      "obtido": [
+        "registrar_experimento"
+      ],
+      "esperado": "registrar_experimento"
+    },
+    {
+      "caso": "roteamento: Confirme a ordem de produção para a fábrica",
+      "ok": true,
+      "obtido": [
+        "confirmar_producao"
+      ],
+      "esperado": "confirmar_producao"
+    },
+    {
+      "caso": "número inventado é barrado",
+      "ok": true,
+      "obtido": "revisar",
+      "esperado": "revisar"
+    }
+  ]
+}

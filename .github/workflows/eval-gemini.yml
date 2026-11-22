@@ -1,0 +1,19 @@
+name: eval-gemini
+# Avaliação com o Gemini real. Manual, porque consome cota e precisa do secret GEMINI_API_KEY.
+on: workflow_dispatch
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - run: python eval/run_eval.py --gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: resultados-gemini
+          path: eval/resultados_gemini.*
