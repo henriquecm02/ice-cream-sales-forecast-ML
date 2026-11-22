@@ -5,4 +5,3 @@ holidays>=0.50
 plotly>=5.20
 streamlit>=1.35
 google-genai>=1.0
-mlflow-skinny>=2.10

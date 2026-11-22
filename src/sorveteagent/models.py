@@ -91,16 +91,20 @@ def log_experiment(nota: str = "") -> dict:
             w.writeheader()
         for r in rows:
             w.writerow({"quando": quando, **r, "nota": nota})
-    mlflow_ok = False
+    mlflow_ok, mlflow_erro = False, None
     try:
         import mlflow
 
-        mlflow.set_tracking_uri(f"file:{D.ROOT / 'mlruns'}")
+        (D.ROOT / "mlruns").mkdir(exist_ok=True)
+        mlflow.set_tracking_uri(f"sqlite:///{D.ROOT / 'mlruns' / 'mlflow.db'}")
+        mlflow.set_experiment("vendas-sorvete")
         for r in rows:
             with mlflow.start_run(run_name=r["modelo"]):
-                mlflow.log_params({"modelo": r["modelo"], "nota": nota})
+                mlflow.log_params({"modelo": r["modelo"], "nota": nota[:200]})
                 mlflow.log_metrics({"r2": r["r2"], "mae": r["mae"]})
         mlflow_ok = True
     except ImportError:
-        pass
-    return {"quando": quando, "linhas": rows, "mlflow": mlflow_ok}
+        mlflow_erro = "MLflow não instalado"
+    except Exception as exc:  # o registro em CSV continua valendo mesmo se o MLflow falhar
+        mlflow_erro = f"{type(exc).__name__}: {str(exc)[:160]}"
+    return {"quando": quando, "linhas": rows, "mlflow": mlflow_ok, "mlflow_erro": mlflow_erro}

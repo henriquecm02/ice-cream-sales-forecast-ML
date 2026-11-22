@@ -218,8 +218,11 @@ def _collect_numbers(obj: Any, out: list[float]) -> None:
             _collect_numbers(v, out)
 
 
-def ungrounded_numbers(cited: list[float], evidence: Any, question: str = "", tol: float = 0.011) -> list[float]:
-    """Números citados que não batem (com tolerância de arredondamento) com nenhum número da evidência."""
+def ungrounded_numbers(cited: list[float], evidence: Any, question: str = "", tol: float = 0.005) -> list[float]:
+    """Números citados que não batem com nenhum número da evidência.
+
+    Tolerância: 0,5% do valor ou 0,051 em termos absolutos (arredondamento para uma casa).
+    A única conversão aceita é fração -> porcentagem (0,35 citado como 35%)."""
     pool: list[float] = []
     _collect_numbers(evidence, pool)
     pool.extend(numbers_in_text(question))
@@ -229,7 +232,7 @@ def ungrounded_numbers(cited: list[float], evidence: Any, question: str = "", to
             continue  # 0 e 1 aparecem em qualquer texto
         ok = False
         for p in pool:
-            for cand in (p, p * 100, p / 100):  # 0,35 citado como 35%
+            for cand in (p, p * 100) if abs(p) <= 1 else (p,):
                 if abs(c - cand) <= max(tol * abs(cand), 0.051):
                     ok = True
                     break

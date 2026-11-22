@@ -22,7 +22,7 @@ Sem `GEMINI_API_KEY`, o agente roda em modo offline, com roteamento por palavras
 | `planejar_producao` | Quanto produzir por dia (modelo *newsvendor*: produz no quantil crítico falta/(falta+sobra)) |
 | `explicar_modelo` | Efeito de cada grau, da chuva, do fim de semana e do feriado |
 | `comparar_modelos` | Só temperatura × multivariado, em holdout temporal |
-| `registrar_experimento` | Grava a comparação em CSV e, se instalado, no MLflow |
+| `registrar_experimento` | Grava a comparação em CSV e, com o extra `[mlflow]`, também no MLflow (backend SQLite) |
 | `confirmar_producao` | Sensível: envia a ordem de produção |
 
 ## Resultados medidos
@@ -59,7 +59,7 @@ O detalhe de cada caso está em [`eval/resultados.md`](eval/resultados.md).
 
 ## Como rodar
 ```bash
-pip install -e ".[dev]"
+pip install -e ".[dev]"            # ou ".[dev,mlflow]" para registrar no MLflow
 streamlit run app/streamlit_app.py   # dashboard + agente
 python eval/run_eval.py              # avaliação contra gabarito
 pytest -q                            # testes, sem rede
