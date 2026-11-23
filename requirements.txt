@@ -3,5 +3,5 @@ numpy>=1.26
 scikit-learn>=1.5
 holidays>=0.50
 plotly>=5.20
-streamlit>=1.35
+streamlit>=1.51
 google-genai>=1.0

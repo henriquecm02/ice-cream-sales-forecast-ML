@@ -5,7 +5,7 @@ description = "Agente de previsão de vendas de sorvete e plano de produção, c
 requires-python = ">=3.11"
 dependencies = [
   "pandas>=2.2", "numpy>=1.26", "scikit-learn>=1.5", "holidays>=0.50",
-  "plotly>=5.20", "streamlit>=1.35", "google-genai>=1.0",
+  "plotly>=5.20", "streamlit>=1.51", "google-genai>=1.0",
 ]
 
 [project.optional-dependencies]

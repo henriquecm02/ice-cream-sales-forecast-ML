@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+import tema
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -17,7 +18,6 @@ from sorveteagent import data as D  # noqa: E402
 from sorveteagent import models as M  # noqa: E402
 from sorveteagent.tools import build_agent, t_planejar  # noqa: E402
 
-RED, INK, GREY = "#E3263B", "#1E1416", "#9A8A8D"
 st.set_page_config(page_title="Sorvete · previsão e produção", page_icon="🍦", layout="wide")
 
 
@@ -31,9 +31,12 @@ agent = get_agent()
 st.session_state.setdefault("pending", [])
 st.session_state.setdefault("log", [])
 
-st.title("Vendas de sorvete: previsão e plano de produção")
-st.caption("Agente de IA que prevê vendas pelo clima e decide quanto produzir equilibrando sobra e falta. "
-           "Os números vêm de scikit-learn; o modelo de linguagem só interpreta. Dados sintéticos com fórmula conhecida.")
+tema.aplicar_tema(
+    "Vendas de sorvete: previsão e plano de produção",
+    "Agente de IA que prevê vendas pelo clima e decide quanto produzir equilibrando sobra e falta. "
+    "Os números vêm de scikit-learn; o modelo de linguagem só interpreta.",
+    kicker="Agente de IA · produção",
+    chips=["Gemini", "Regressão multivariada", "Dados sintéticos com fórmula conhecida"])
 if agent.llm is None:
     st.info("Modo offline: sem GEMINI_API_KEY, o agente escolhe ferramentas por palavras-chave.", icon="🔌")
 
@@ -46,15 +49,15 @@ with tab_dash:
         coef = M.coefficients()
         xs = np.linspace(df["temperatura"].min(), df["temperatura"].max(), 50)
         fig = go.Figure()
-        for chuva, cor, nome in ((0, GREY, "Dias secos"), (1, "#3B82C4", "Dias com chuva")):
+        for chuva, cor, nome in ((0, tema.neutro(), "Dias secos"), (1, tema.cor(1), "Dias com chuva")):
             sub = df[df["chuva"] == chuva]
             fig.add_trace(go.Scatter(x=sub["temperatura"], y=sub["vendas"], mode="markers", name=nome,
                                      marker={"color": cor, "size": 5, "opacity": 0.55}))
         fig.add_trace(go.Scatter(x=xs, y=coef["intercepto"] + coef["por_grau"] * xs, name="Modelo (dia útil seco)",
-                                 line={"color": RED, "width": 3}))
+                                 line={"color": tema.cor(0), "width": 3}))
         fig.update_layout(height=400, margin={"l": 10, "r": 10, "t": 10, "b": 10}, xaxis_title="°C", yaxis_title="sorvetes/dia",
                           legend={"orientation": "h", "y": -0.18})
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(tema.estilo_plotly(fig), use_container_width=True)
     with c2:
         st.subheader("Plano de produção da semana")
         temps = [st.slider(f"Dia {i + 1} (°C)", 10, 40, v, key=f"t{i}") for i, v in enumerate([28, 29, 30, 27, 25, 31, 32])]
@@ -69,17 +72,17 @@ with tab_dash:
     k3.metric("R² (holdout)", f"{tab['multivariado']['r2']:.3f}", delta=f"{tab['multivariado']['r2'] - tab['so_temperatura']['r2']:+.3f} vs. só temperatura")
     k4.metric("Efeito da chuva", f"{coef['chuva']:.1f} un/dia")
     pl = pd.DataFrame(plano["dias"])[["data", "temperatura", "fim_de_semana", "previsao", "producao"]]
-    fig2 = go.Figure([go.Bar(x=pl["data"], y=pl["previsao"], name="Demanda prevista", marker_color=GREY),
-                      go.Bar(x=pl["data"], y=pl["producao"], name="Produzir", marker_color=RED)])
+    fig2 = go.Figure([go.Bar(x=pl["data"], y=pl["previsao"], name="Demanda prevista", marker_color=tema.neutro()),
+                      go.Bar(x=pl["data"], y=pl["producao"], name="Produzir", marker_color=tema.cor(0))])
     fig2.update_layout(barmode="group", height=300, margin={"l": 10, "r": 10, "t": 10, "b": 10}, legend={"orientation": "h", "y": -0.25})
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(tema.estilo_plotly(fig2), use_container_width=True)
     st.caption(f"Produção no quantil {plano['quantil_critico']:.3f} da demanda: quanto mais cara a falta, mais se produz.")
 
 with tab_agent:
     st.subheader("Pergunte ao agente")
     ex = st.selectbox("Exemplos", ["", "Quantos sorvetes vou vender amanhã com 31 graus?", "Quanto a chuva derruba as vendas?",
                                    "Quanto devo produzir na próxima semana?", "Compare os modelos: qual tem o melhor R²?",
-                                   "Confirme a ordem de produção para a fábrica"])
+                                   "Confirme a ordem de produção para a fábrica"], placeholder="Escolha um exemplo")
     q = st.text_input("Pergunta", value=ex)
     if st.button("Perguntar", type="primary") and q.strip():
         r = agent.run(q)

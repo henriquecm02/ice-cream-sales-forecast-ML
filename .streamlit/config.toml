@@ -1,0 +1,47 @@
+# Identidade visual dos dashboards: a mesma do portfólio (henriquecm02.github.io).
+# Paletas de gráfico validadas para daltonismo (dataviz validate_palette, modo claro e escuro).
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "viewer"
+
+[theme]
+font = "Figtree:https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap"
+headingFont = "Bricolage Grotesque:https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&display=swap"
+codeFont = "JetBrains Mono:https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap"
+baseRadius = "14px"
+buttonRadius = "full"
+showWidgetBorder = true
+
+[theme.light]
+primaryColor = "#E3263B"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F8F4F4"
+textColor = "#1E1416"
+borderColor = "#EEE4E5"
+dataframeHeaderBackgroundColor = "#F8F4F4"
+linkColor = "#C8102E"
+redColor = "#C8102E"
+greenColor = "#157347"
+yellowColor = "#8A5200"
+blueColor = "#2a78d6"
+chartCategoricalColors = ["#E3263B", "#2a78d6", "#eda100", "#1baf7a", "#6250d6"]
+chartSequentialColors = ["#FDECEE", "#FAD3D8", "#F6B3BC", "#F08E9B", "#EC6A7B", "#E7475A", "#E3263B", "#C81A30", "#B3132A", "#7A0A1B"]
+chartDivergingColors = ["#1B5FB0", "#2a78d6", "#7FAEE6", "#BCD3F0", "#E2DCDD", "#F6B3BC", "#EC6A7B", "#E3263B", "#B3132A"]
+
+[theme.dark]
+primaryColor = "#E8455A"
+backgroundColor = "#141011"
+secondaryBackgroundColor = "#1F191A"
+textColor = "#F4EEEF"
+borderColor = "#3A2F31"
+dataframeHeaderBackgroundColor = "#1F191A"
+linkColor = "#F08E9B"
+redColor = "#F06577"
+greenColor = "#3DBB7A"
+yellowColor = "#E0A23A"
+blueColor = "#3987e5"
+chartCategoricalColors = ["#E8455A", "#3987e5", "#c98500", "#199e70", "#9085e9"]
+chartSequentialColors = ["#3A1218", "#5A1722", "#7A0A1B", "#9C1428", "#B3132A", "#C81A30", "#E3263B", "#EC6A7B", "#F6B3BC", "#FDECEE"]
+chartDivergingColors = ["#7FAEE6", "#3987e5", "#2A5E9E", "#24344A", "#3A3335", "#5A1722", "#9C1428", "#E8455A", "#F6B3BC"]
